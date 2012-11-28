@@ -1,0 +1,37 @@
+<div class="page-header">
+  <h1>Concerts</h1>
+</div>
+<%= paginate @concerts%>
+
+<% if user_signed_in? %>
+<%= link_to 'New Concert', new_concert_path %>
+<% end %>
+
+<% @concerts.each do |concert| %>
+<div class="evento">
+  <div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <b><%= image_tag concert.image.url(:thumb) if !concert.image_file_name.nil? %></b>
+      <h3><%= link_to concert.title, concert %></h3>
+    </div>
+    <div class="span10">
+    <p>Date: <%= concert.date %></p>
+    <p>Artist: <%= concert.name_art %></p>
+    <p>Price:  $<%= concert.price %></p>
+    <div class="meta">
+      post by <%= concert.user.full_name %>
+      <% if current_user == concert.user %>
+      <span class = "admin">
+        | <%= link_to 'Edit', edit_concert_path(concert) %></td> 
+        | <%= link_to 'Delete', concert, method: :delete, data: { confirm: 'Are you sure Delete this Concert?' } %>
+       
+      </span>
+      <% end %>
+    </div>
+     </div>
+      </div>
+       </div>
+ </div>
+
+<% end %> 

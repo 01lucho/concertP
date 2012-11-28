@@ -1,0 +1,45 @@
+<% if user_signed_in? %>
+  <%= simple_form_for(@concert, html: {class: "form-horizontal", :multipart => true}) do |f| %>
+    <% if @concert.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@concert.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+        <ul>
+        <% @concert.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+<table>
+    <tr>
+        <td>Title Event <%= f.input :title, :label => '-' %></td>
+    </tr>
+    <tr>
+        <td>Image <%= f.file_field :image %></td>
+    </tr>
+    <tr>
+        <td>Date <%= f.text_field :date, :id => "datepicker" %></td>
+    </tr>
+    <tr>
+        <td>Time <%= f.input :time_dur, :label => '-' %></td>
+    </tr>
+    <tr>
+        <td> Price <%= f.input :price, :label => '-' %></td>
+    </tr>
+    <tr>
+        <td> Artist <%= f.input :name_art, :label => '-' %> </td>
+    </tr>
+    <tr>
+        <td> Track <%= f.input :song, collection: [@concert.song], :label => '-' %></td>
+    </tr>
+    <tr>
+    <td>Description <%= f.input :full_desc, :label => '-' , :input_html => { :rows => 7 }%></td>
+    </tr>
+</table>
+    <div class="form-actions">
+      <%= f.button :submit, "Create" %>
+    </div>
+  <% end %>
+<% end %> 

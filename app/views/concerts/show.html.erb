@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b><h3><%= @concert.title %></h3></b>
+</p>
+<p>
+   <b><%= image_tag @concert.image.url(:thumb) if !@concert.image_file_name.nil? %></b>
+</p>
+<p>
+  <h5>Artist: <%= @concert.name_art %></h5>
+</p>
+<p>
+  Date: <%= @concert.date %>
+</p>
+<p>
+  <%= @concert.full_desc %>
+</p>
+<p>
+  Duration: <%= @concert.time_dur %>
+</p>
+<p>
+  <h5>Price:  $<%= @concert.price %></h5>
+</p>  
+<p>
+  <h5>by <%= @concert.user.full_name %></h5>
+</p>
+<% unless @concert.song.blank? %>
+<div class="container">
+  <p>
+  <h5>Track</h5>
+  </p>     
+  <% client = Soundcloud.new(client_id: 'a271f0bab945e91982decb069ce72d7a') %>
+  <% embed_info = client.get('/oembed', url: @concert.song) %>
+  <%= embed_info['html'].html_safe %>
+</div>
+<% end %>
+<p>
+  <% if user_signed_in? && (current_user == @concert.user) %>
+    <%= link_to 'Edit Concert', edit_concert_path(@concert)%>
+  <% end %>
+</p>
+
+<%= link_to 'Back to Concert', concerts_path %>
